@@ -9,10 +9,10 @@ def test_group_features_uses_depth_km(loaded):
 
     assert "depth_class" in feat.columns
     assert feat["depth_class"].notna().all()
+    
+def test_group_manila_time_conversion(loaded):
+    qw.integrate()
+    feat = qw.features_stage()
 
-    def test_group_manila_time_conversion(loaded):
-        qw.integrate()
-        feat = qw.features_stage()
-
-        top = feat.loc[feat["mag"].idxmax()]
-        assert top["local"].strftime("%Y-%m-%d %H:%M") == "2023-12-02 22:37"
+    top = feat.loc[feat["mag"].idxmax()]
+    assert top["local"].strftime("%Y-%m-%d %H:%M") == "2023-12-02 22:37"
