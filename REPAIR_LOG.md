@@ -14,7 +14,7 @@ Members:
 | # | Symptom (what was wrong for the user) | Cause (file, function, line; why it was wrong) | Fix (what you changed) | Test that now guards it | Fixed by |
 | --- | --- | --- | --- | --- | --- |
 | 1 | `features_stage()` stopped with a `KeyError` before the dashboard was written. | `quakewatch.py`, `features_stage()`: the code accessed `t["depth"]`, but the acquired and integrated data use the column `depth_km`. | Changed the depth-class calculation to use `t["depth_km"]`. | `test_features_stage_runs`; `test_depth_classes`; | [BALANGUE] |
-| 2 | | | | | |
+| 2 | The strongest event was shown at 14:37 Manila time instead of 22:37. | `quakewatch.py`, `features_stage()`: `tz_localize(None).tz_localize("Asia/Manila")` relabeled UTC clock values as Manila time instead of converting the instant. | Used `t["time"].dt.tz_convert("Asia/Manila")` to convert the timezone correctly. | `test_strongest_event_is_at_night_in_manila` | [CUBOL] |
 | 3 | | | | | |
 | 4 | | | | | |
 | 5 | | | | | |
