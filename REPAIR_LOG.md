@@ -25,7 +25,7 @@ Members:
 | Test name | Tool used (`parametrize`, fake API, `caplog`) | What it proves | Fails on the broken code? | Written by |
 | --- | --- | --- | --- | --- |
 | `test_group_features_uses_depth_km` | `loaded` fixture | Confirms that the feature stage uses `depth_km` correctly to generate non-null `depth_class` values. | Yes | [BALANGUE] |
-| | | | | |
+| `test_group_manila_time_conversion` | `loaded` fixture | Confirms that earthquake timestamps are correctly converted to Manila local time (UTC+8). | Yes | [CUBOL] |
 | | | | | |
 
 ## Logging we added
