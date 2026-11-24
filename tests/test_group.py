@@ -2,3 +2,10 @@ import logging
 import pandas as pd
 import pytest
 import quakewatch as qw
+
+def test_group_features_uses_depth_km(loaded):
+    qw.integrate()
+    feat = qw.features_stage()
+
+    assert "depth_class" in feat.columns
+    assert feat["depth_class"].notna().all()
