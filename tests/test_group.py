@@ -28,3 +28,5 @@ def test_group_manila_time_conversion(loaded):
         (8.0, "Great"),
     ],
 )
+def test_group_magnitude_boundaries(magnitude, expected):
+    assert qw.mag_class(pd.Series([magnitude])).iloc[0] == expected
