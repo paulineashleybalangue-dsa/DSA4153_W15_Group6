@@ -28,6 +28,7 @@ Members:
 | `test_group_manila_time_conversion` | `loaded` fixture | Confirms that earthquake timestamps are correctly converted to Manila local time (UTC+8). | Yes | [CUBOL] |
 | `test\_group\_magnitude\_boundaries` | `pytest.mark.parametrize` | Checks magnitude classification boundaries, including 5.0, 5.9, 6.0, 6.9, 7.0, and 8.0. | Yes | [TILO] |
 | `test\_group\_mindanao\_event\_nearest\_city` | `loaded` fixture | Confirms that the Mindanao earthquake event is assigned to the correct nearest city (`C10`). | Yes | [FERNANDEZ] |
+| `test_group_incremental_acquisition_uses_fake_api` | `monkeypatch` fake API response | Confirms that incremental acquisition starts one millisecond after the latest saved watermark. | Yes | [ESPIRITU] |
 
 ## Logging we added
 
