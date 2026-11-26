@@ -39,3 +39,19 @@ def test_group_mindanao_event_nearest_city(loaded):
     ]
 
     assert row["city_id"].iloc[0] == "C10"
+
+def test_group_incremental_acquisition_uses_fake_api(monkeypatch):
+    """A fake API call must begin just after the latest persisted event."""
+    latest = pd.Timestamp("2024-06-01T12:30:00Z")
+    observed = {}
+
+    monkeypatch.setattr(qw, "watermark", lambda: latest)
+
+    def fake_api_fetch(start, end):
+        observed["start"] = start
+        return pd.DataFrame(columns=["id", "time", "latitude", "longitude",
+                                     "depth_km", "mag", "magType", "place"])
+
+    monkeypatch.setattr(qw, "fetch_range", fake_api_fetch)
+    assert qw.load_new() == 0
+    assert observed["start"] == "2024-06-01T12:30:00.001000"
