@@ -1,0 +1,16 @@
+AI ASSISTANCE AND CONTRIBUTION DISCLOSURE
+
+Group 6 Contributions
+
+1. Balangue, Pauline Ashley – Fixed the incorrect depth column reference in features_stage().
+2. Cubol, Mary Belle – Fixed Manila timezone conversion.
+3. Tilo, Mikaela Stefanie – Corrected earthquake magnitude classification boundaries.
+4. Fernandez, Coleen Dian – Fixed nearest-city coordinate handling.
+5. Espiritu, Meghan Isabelle – Implemented incremental earthquake acquisition and duplicate prevention.
+6. Alano, Rolando Banjo – Fixed invalid-row validation in split_by_contract(), added WARNING logging for rejected rows, configured file logging in run.py, and documented the repair.
+
+AI Assistance
+
+ChatGPT was used for debugging guidance, explanations of Python and pytest errors, suggestions for validation and logging improvements, and assistance with documentation.
+
+The group reviewed and tested the suggested changes, ran the supplied test suite, and verified the pipeline output. The group remained responsible for reviewing the code and final submission.

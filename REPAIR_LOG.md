@@ -18,7 +18,7 @@ Members:
 | 3 | Earthquakes with magnitude `6.0` were misclassified as `"Moderate"` instead of `"Strong"`.| `quakewatch.py`, `MAG_BINS`: the second bin boundary was set to `6.05` instead of `5.95`, placing `6.0` below the `"Strong"` threshold.| Changed the second bin boundary in `MAG_BINS` from `6.05` to `5.95`.| `test_group_magnitude_boundaries`| [TILO] |
 | 4 | Events east of Mindanao were assigned to a distant northern Luzon city. | `quakewatch.py`, `nearest\_city()`: event longitude was passed as latitude and event latitude as longitude to `haversine\_km()`. | Passed event latitude first and longitude second, matching the function signature and the city coordinate order. | `test\_nearest\_city\_of\_known\_events` | [FERNANDEZ] |
 | 5 | Running the pipeline twice appended the same earthquakes again. | `quakewatch.py`, `load_new()`: the watermark helper existed but was never used; every run fetched from `FIRST_DAY`. | Used `watermark()` and requested data beginning one millisecond after the latest saved event. The first run still starts at `FIRST_DAY`; later runs fetch only new events. | `test_second_load_adds_nothing`; `test_ids_stay_unique_after_two_loads`; `test_group_incremental_acquisition_uses_fake_api`; `test_run_twice_gives_the_same_numbers` | [ESPIRITU] |
-| 6 | | | | | |
+| 6 | Rows with invalid values, such as negative earthquake depth, were not rejected. | `quakewatch.py`, `split_by_contract()`: the validation exception was swallowed, and the function returned all rows as valid with an empty rejects DataFrame. | Added row-level checks for required fields and valid ranges, rejected duplicate IDs, and logged a WARNING whenever rows were rejected. | `test_bad_rows_are_set_aside`; `test_group_rejected_rows_emit_warning` | [ALANO] |
 
 ## Our own tests (in `tests/test_group.py`)
 
@@ -26,18 +26,17 @@ Members:
 | --- | --- | --- | --- | --- |
 | `test_group_features_uses_depth_km` | `loaded` fixture | Confirms that the feature stage uses `depth_km` correctly to generate non-null `depth_class` values. | Yes | [BALANGUE] |
 | `test_group_manila_time_conversion` | `loaded` fixture | Confirms that earthquake timestamps are correctly converted to Manila local time (UTC+8). | Yes | [CUBOL] |
-| `test\_group\_magnitude\_boundaries` | `pytest.mark.parametrize` | Checks magnitude classification boundaries, including 5.0, 5.9, 6.0, 6.9, 7.0, and 8.0. | Yes | [TILO] |
-| `test\_group\_mindanao\_event\_nearest\_city` | `loaded` fixture | Confirms that the Mindanao earthquake event is assigned to the correct nearest city (`C10`). | Yes | [FERNANDEZ] |
+| `test_group_magnitude_boundaries` | `pytest.mark.parametrize` | Checks magnitude classification boundaries, including 5.0, 5.9, 6.0, 6.9, 7.0, and 8.0. | Yes | [TILO] |
+| `test_group_mindanao_event_nearest_city` | `loaded` fixture | Confirms that the Mindanao earthquake event is assigned to the correct nearest city (`C10`). | Yes | [FERNANDEZ] |
 | `test_group_incremental_acquisition_uses_fake_api` | `monkeypatch` fake API response | Confirms that incremental acquisition starts one millisecond after the latest saved watermark. | Yes | [ESPIRITU] |
+| `test_group_rejected_rows_emit_warning` | `caplog` | Confirms that invalid rows are rejected and a WARNING message is logged. | Yes | [ALANO] |
 
 ## Logging we added
 
 | Where (function) | Level | Message | Why this level |
 | --- | --- | --- | --- |
-| | | | |
-| | | | |
-| | | | |
+| `split_by_contract()` | WARNING | `Rejected %d rows that failed the data contract` | Alerts users that some records failed validation while allowing valid records to continue through the pipeline. |
 
 ## One thing we learned about debugging
 
-(two or three sentences)
+We learned that silently catching validation errors can allow invalid data to enter the pipeline. It is important to identify rejected rows, separate them from valid records, and log warnings so that data quality issues can be investigated.
