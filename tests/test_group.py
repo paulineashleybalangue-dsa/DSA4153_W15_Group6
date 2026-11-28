@@ -55,3 +55,25 @@ def test_group_incremental_acquisition_uses_fake_api(monkeypatch):
     monkeypatch.setattr(qw, "fetch_range", fake_api_fetch)
     assert qw.load_new() == 0
     assert observed["start"] == "2024-06-01T12:30:00.001000"
+
+def test_group_rejected_rows_emit_warning(caplog):
+    import logging
+    import pandas as pd
+    import quakewatch as qw
+
+    raw = pd.DataFrame([{
+        "id": "invalid-depth-test",
+        "mag": 5.5,
+        "depth_km": -5.0,
+        "latitude": 14.6,
+        "longitude": 121.0,
+        "place": "Test Location"
+    }])
+
+    with caplog.at_level(logging.WARNING, logger="quakewatch"):
+        good, rejects = qw.split_by_contract(raw)
+
+    assert len(good) == 0
+    assert len(rejects) == 1
+    assert "invalid-depth-test" in set(rejects["id"])
+    assert "Rejected 1 rows" in caplog.text

@@ -45,3 +45,7 @@ To start the data again from nothing, delete `data/raw`, `data/clean`, `data/fea
 `quakewatch.py`, `run.py`, the `tests/` folder, `REPAIR_LOG.md`, `pytest_output.txt` (from
 `python -m pytest -v > pytest_output.txt`), `logs/run.log`, and `disclosure.txt` (members, who did what,
 and any help used, including AI tools).
+
+## Debugging Lesson
+
+During this activity, we learned that passing tests does not always mean the code handles invalid data correctly. We used pytest to identify defects, isolate their causes, and verify our fixes. We also learned the importance of logging rejected records so data quality issues can be investigated instead of silently ignored.

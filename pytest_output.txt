@@ -1,0 +1,40 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.5, pytest-8.3.4, pluggy-1.5.0 -- /opt/anaconda3/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/banjo/Downloads/DSA4153_W15_Group6
+plugins: anyio-4.7.0, typeguard-4.6.1
+collecting ... collected 31 items
+
+tests/test_acquire.py::test_first_load_gets_every_event PASSED           [  3%]
+tests/test_acquire.py::test_second_load_adds_nothing PASSED              [  6%]
+tests/test_acquire.py::test_ids_stay_unique_after_two_loads PASSED       [  9%]
+tests/test_features.py::test_features_stage_runs PASSED                  [ 12%]
+tests/test_features.py::test_strongest_event_is_at_night_in_manila PASSED [ 16%]
+tests/test_features.py::test_mag_class_edges[5.0-Moderate] PASSED        [ 19%]
+tests/test_features.py::test_mag_class_edges[5.9-Moderate] PASSED        [ 22%]
+tests/test_features.py::test_mag_class_edges[6.0-Strong] PASSED          [ 25%]
+tests/test_features.py::test_mag_class_edges[6.9-Strong] PASSED          [ 29%]
+tests/test_features.py::test_mag_class_edges[7.0-Major] PASSED           [ 32%]
+tests/test_features.py::test_mag_class_edges[7.9-Major] PASSED           [ 35%]
+tests/test_features.py::test_mag_class_edges[8.0-Great] PASSED           [ 38%]
+tests/test_features.py::test_strong_or_above_count PASSED                [ 41%]
+tests/test_features.py::test_depth_classes PASSED                        [ 45%]
+tests/test_group.py::test_group_features_uses_depth_km PASSED            [ 48%]
+tests/test_group.py::test_group_manila_time_conversion PASSED            [ 51%]
+tests/test_group.py::test_group_magnitude_boundaries[5.0-Moderate] PASSED [ 54%]
+tests/test_group.py::test_group_magnitude_boundaries[5.9-Moderate] PASSED [ 58%]
+tests/test_group.py::test_group_magnitude_boundaries[6.0-Strong] PASSED  [ 61%]
+tests/test_group.py::test_group_magnitude_boundaries[6.9-Strong] PASSED  [ 64%]
+tests/test_group.py::test_group_magnitude_boundaries[7.0-Major] PASSED   [ 67%]
+tests/test_group.py::test_group_magnitude_boundaries[8.0-Great] PASSED   [ 70%]
+tests/test_group.py::test_group_mindanao_event_nearest_city PASSED       [ 74%]
+tests/test_group.py::test_group_incremental_acquisition_uses_fake_api PASSED [ 77%]
+tests/test_group.py::test_group_rejected_rows_emit_warning PASSED        [ 80%]
+tests/test_integrate.py::test_contract_accepts_the_real_data PASSED      [ 83%]
+tests/test_integrate.py::test_nearest_city_of_known_events[2023-12-02 14:37-C10] PASSED [ 87%]
+tests/test_integrate.py::test_nearest_city_of_known_events[2022-07-27 00:43-C04] PASSED [ 90%]
+tests/test_integrate.py::test_nearest_city_of_known_events[2021-07-23 20:49-C01] PASSED [ 93%]
+tests/test_integrate.py::test_bad_rows_are_set_aside PASSED              [ 96%]
+tests/test_pipeline.py::test_run_twice_gives_the_same_numbers PASSED     [100%]
+
+============================== 31 passed in 1.02s ==============================

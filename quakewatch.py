@@ -125,13 +125,34 @@ CONTRACT = pa.DataFrameSchema({
 })
 
 
+
 def split_by_contract(raw):
     """Return (good rows, rejected rows)."""
-    try:
-        CONTRACT.validate(raw)
-    except Exception:
-        pass
-    return raw, raw.iloc[0:0]
+    # Identify rows that satisfy every contract requirement.
+    checks = pd.DataFrame({
+        "id": raw["id"].notna(),
+        "mag": raw["mag"].between(5, 10),
+        "depth_km": raw["depth_km"].between(0, 700),
+        "latitude": raw["latitude"].between(4, 22),
+        "longitude": raw["longitude"].between(116, 130),
+        "place": raw["place"].notna(),
+    }, index=raw.index)
+
+    # IDs must also be unique.
+    checks["id"] &= ~raw["id"].duplicated(keep=False)
+
+    valid = checks.all(axis=1)
+
+    good = raw.loc[valid].copy()
+    rejects = raw.loc[~valid].copy()
+
+    if not rejects.empty:
+        log.warning(
+            "Rejected %d rows that failed the data contract",
+            len(rejects)
+        )
+
+    return good, rejects
 
 
 def haversine_km(lat1, lon1, lat2, lon2):
